@@ -68,7 +68,7 @@ const characterReducer = (state = initialState, action: CharacterActionTypes): C
                 sortBy: action.payload,
             };
         case SORT_CHARACTERS:
-            const { sortBy, sortOrder } = action.payload;
+            const { sortBy, sortOrder }: any = action.payload;
             const sortedCharacters = [...state.characters].sort((a, b) => {
                 if (sortBy === 'name') {
                     return sortOrder === 'asc'

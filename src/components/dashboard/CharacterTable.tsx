@@ -26,7 +26,7 @@ import CharacterTableData from "./CharacterTableData.tsx";
 
 const CharacterTable: React.FC = () => {
     const dispatch = useDispatch();
-    const { loading, characters, error, sortOrder, sortBy, itemsPerPage, currentPage, totalCharacters, searchQuery } = useSelector((state: CharacterState) => state);
+    const { loading, error, sortOrder, sortBy, itemsPerPage, currentPage, totalCharacters } = useSelector((state: CharacterState) => state);
 
     useEffect(() => {
         dispatch(fetchCharacters());

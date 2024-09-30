@@ -1,4 +1,4 @@
-function BaseLayout({children}) {
+function BaseLayout({children}: any) {
 
     return (
         <>
