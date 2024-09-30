@@ -1,10 +1,9 @@
-import { useState } from 'react'
-
+import CharacterTable from "../components/dashboard/CharacterTable.tsx";
 
 function Dashboard() {
     return (
         <>
-
+            <CharacterTable />
         </>
     )
 }
