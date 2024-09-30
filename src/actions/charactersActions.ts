@@ -13,7 +13,7 @@ import {
 import { ApiResponse, Character, CharacterActionTypes } from '../types';
 
 export const fetchCharacters = () => async (dispatch: Dispatch<CharacterActionTypes>, getState: () => any) => {
-    const { currentPage, itemsPerPage } = getState() || {};
+    const { currentPage, itemsPerPage, sortBy, sortOrder } = getState() || {};
     dispatch({ type: FETCH_CHARACTERS_REQUEST });
 
     try {
@@ -28,6 +28,10 @@ export const fetchCharacters = () => async (dispatch: Dispatch<CharacterActionTy
             type: SET_TOTAL_CHARACTERS,
             payload: data.info.totalPages * data.info.count,
         });
+        dispatch({
+            type: SORT_CHARACTERS,
+            payload: {sortBy, sortOrder}
+        })
     } catch (error) {
         dispatch({
             type: FETCH_CHARACTERS_FAILURE,

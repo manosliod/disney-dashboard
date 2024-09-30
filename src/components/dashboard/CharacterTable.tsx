@@ -7,7 +7,7 @@ import {
     searchCharacters,
     setSortOrder,
     sortCharacters
-} from '../../actions/characterActions';
+} from '../../actions/charactersActions.ts';
 import { CharacterState } from '../../types';
 import {
     Table,
@@ -67,7 +67,7 @@ const CharacterTable: React.FC = () => {
                     fullWidth
                     margin="normal"
                 />
-                <TableContainer component={Paper} sx={{ maxHeight: 'calc(100% - 64px)', overflowY: 'auto' }}>
+                <TableContainer className="vertical-scroll-content" component={Paper} sx={{ maxHeight: 'calc(100% - 80px)', overflow: 'hidden auto' }}>
                     <Table sx={{ minWidth: 650 }} aria-label="simple table">
                         <TableHead>
                             <TableRow sx={{ position: 'sticky', top: 0, backgroundColor: 'white', zIndex: 1 }}>

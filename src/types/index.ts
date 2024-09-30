@@ -32,7 +32,7 @@ export interface CharacterState {
     totalCharacters: number;
     searchQuery: string;
     sortBy: string;
-    sortOrder: string;
+    sortOrder: 'asc' | 'desc';
 }
 
 // Action Type Definitions
