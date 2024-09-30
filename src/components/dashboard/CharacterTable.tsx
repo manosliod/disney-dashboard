@@ -21,6 +21,8 @@ import {
     TextField,
     Paper,
 } from '@mui/material';
+import CharacterTableDataSkeleton from "./CharacterTableDataSkeleton.tsx";
+import CharacterTableData from "./CharacterTableData.tsx";
 
 const CharacterTable: React.FC = () => {
     const dispatch = useDispatch();
@@ -49,13 +51,7 @@ const CharacterTable: React.FC = () => {
         dispatch(sortCharacters('name', newOrder)); // Pass sortBy and sortOrder
     };
 
-    if (loading) return <div>Loading...</div>;
     if (error) return <div>Error: {error}</div>;
-
-    // Filter characters based on search query
-    const filteredCharacters = characters.filter((char) =>
-        char.name.toLowerCase().includes(searchQuery.toLowerCase())
-    );
 
     return (
         <>
@@ -63,6 +59,7 @@ const CharacterTable: React.FC = () => {
                 <TextField
                     label="Search Characters"
                     variant="outlined"
+                    disabled={loading}
                     onChange={handleSearch}
                     fullWidth
                     margin="normal"
@@ -87,16 +84,7 @@ const CharacterTable: React.FC = () => {
                             </TableRow>
                         </TableHead>
                         <TableBody>
-                            {filteredCharacters
-                                .map((char) => (
-                                    <TableRow key={`${char.id ?? Math.random()}-${char.name}`}>
-                                        <TableCell>{char.name}</TableCell>
-                                        <TableCell>{char.tvShows.length}</TableCell>
-                                        <TableCell>{char.videoGames.length}</TableCell>
-                                        <TableCell>{char.allies.join(', ')}</TableCell>
-                                        <TableCell>{char.enemies.join(', ')}</TableCell>
-                                    </TableRow>
-                                ))}
+                            {loading ? <CharacterTableDataSkeleton /> : <CharacterTableData />}
                         </TableBody>
                     </Table>
                 </TableContainer>
