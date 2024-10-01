@@ -10,13 +10,15 @@ import {
 } from "../actions/actionTypes.ts";
 
 export interface ApiResponse {
-    data: Character[];
+    data: Character | Character[];
     info: any; // Use a more specific type if you know the structure
 }
 
 export interface Character {
+    _id: string;
     id: string;
     name: string;
+    imageUrl: string;
     tvShows: string[];
     videoGames: string[];
     allies: string[];
