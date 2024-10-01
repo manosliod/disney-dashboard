@@ -22,7 +22,6 @@ import {
 } from '../../actions/charactersActions.ts';
 import {ApiResponse, Character, CharacterState} from '../../types';
 import CharacterModal from './CharacterModal'; // Import modal component
-import CharacterTableDataSkeleton from "./CharacterTableDataSkeleton.tsx";
 import CharacterTableData from "./CharacterTableData.tsx";
 import {faSpinner} from "@fortawesome/free-solid-svg-icons";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
