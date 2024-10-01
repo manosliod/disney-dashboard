@@ -1,18 +1,19 @@
 import React from 'react';
-import {Dialog, DialogTitle, DialogContent, DialogActions, Button, Slide, IconButton} from '@mui/material';
+import {Dialog, DialogTitle, DialogContent, Slide, IconButton} from '@mui/material';
 import { TransitionProps } from '@mui/material/transitions';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faTimes } from '@fortawesome/free-solid-svg-icons';
+import { faTimes, faSpinner } from '@fortawesome/free-solid-svg-icons';
 
 interface CharacterDetailsModalProps {
     open: boolean;
+    loading: boolean;
     onClose: () => void;
     character: {
         name: string;
         imageUrl: string;
         tvShows: string[];
         videoGames: string[];
-    } | null;
+    };
 }
 
 // Define the transition
@@ -23,8 +24,7 @@ const Transition = React.forwardRef(function Transition(
     return <Slide direction="left" ref={ref} {...props} />;
 });
 
-const CharacterDetailsModal: React.FC<CharacterDetailsModalProps> = ({ open, onClose, character }) => {
-    if (!character) return null;
+const CharacterDetailsModal: React.FC<CharacterDetailsModalProps> = ({ open, loading, onClose, character }) => {
 
     return (
         <Dialog
@@ -48,35 +48,42 @@ const CharacterDetailsModal: React.FC<CharacterDetailsModalProps> = ({ open, onC
                 },
             }}
         >
-            <DialogTitle sx={{
-                display: 'flex',
-                justifyContent: 'space-between',
-                alignItems: 'center',
-            }}>
-                {character.name}
-                <IconButton onClick={onClose} aria-label="close" style={{ marginInlineStart: 'auto' }}>
-                    <FontAwesomeIcon icon={faTimes} />
-                </IconButton>
-            </DialogTitle>
-            <DialogContent>
-                <img src={character.imageUrl} alt={character.name} style={{ width: '100%', height: 'auto', maxWidth: '150px', maxHeight: '150px', objectFit: 'cover', borderRadius: '10px' }} />
-                <h4>TV Shows</h4>
-                {!!character.tvShows.length ?
-                    <ul>
-                        {character.tvShows.map((show, index) => (
-                            <li key={index}>{show}</li>
-                        ))}
-                    </ul>
-                : 'none'}
-                <h4>Video Games</h4>
-                {!!character.videoGames.length ?
-                    <ul>
-                        {character.videoGames.map((show, index) => (
-                            <li key={index}>{show}</li>
-                        ))}
-                    </ul>
-                    : 'none'}
-            </DialogContent>
+            {
+                loading ? <FontAwesomeIcon icon={faSpinner} size="2x" spin style={{ marginBlockStart: '24px', width: 'min-content', alignSelf: 'center' }} />
+                    :
+                    <>
+                        <DialogTitle sx={{
+                            display: 'flex',
+                            justifyContent: 'space-between',
+                            alignItems: 'center',
+                        }}>
+                            {character.name}
+                            <IconButton onClick={onClose} aria-label="close" style={{ marginInlineStart: 'auto' }}>
+                                <FontAwesomeIcon icon={faTimes} />
+                            </IconButton>
+                        </DialogTitle>
+                        <DialogContent>
+                            <img src={character.imageUrl} alt={character.name} style={{ width: '100%', height: 'auto', maxWidth: '150px', maxHeight: '150px', objectFit: 'cover', borderRadius: '10px' }} />
+                            <h4>TV Shows</h4>
+                            {!!character.tvShows.length ?
+                                <ul>
+                                    {character.tvShows.map((show, index) => (
+                                        <li key={index}>{show}</li>
+                                    ))}
+                                </ul>
+                                : 'none'}
+                            <h4>Video Games</h4>
+                            {!!character.videoGames.length ?
+                                <ul>
+                                    {character.videoGames.map((show, index) => (
+                                        <li key={index}>{show}</li>
+                                    ))}
+                                </ul>
+                                : 'none'}
+                        </DialogContent>
+                    </>
+            }
+
         </Dialog>
     );
 };

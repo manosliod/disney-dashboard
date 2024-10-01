@@ -1,4 +1,3 @@
-// CharacterTable.tsx
 import React, { useEffect, ChangeEvent, useState } from 'react';
 import {
     Table,
@@ -35,6 +34,7 @@ const CharacterTable: React.FC = () => {
     // State for selected character and modal
     const [selectedCharacter, setSelectedCharacter] = useState<any>(null);
     const [modalOpen, setModalOpen] = useState<boolean>(false);
+    const [loadingCharacter, setLoadingCharacter] = useState<boolean>(false);
 
     // Fetch characters on component mount or when currentPage/itemsPerPage change
     useEffect(() => {
@@ -58,8 +58,9 @@ const CharacterTable: React.FC = () => {
         dispatch(sortCharacters('name', newOrder)); // Pass sortBy and sortOrder
     };
 
-    // Handle row click to fetch character details and open modal
     const handleRowClick = async (id: number) => {
+        setLoadingCharacter(true);
+        setModalOpen(true);
         try {
             const response = await fetch(`https://api.disneyapi.dev/character/${id}`);
             const data: ApiResponse = await response.json();
@@ -70,10 +71,10 @@ const CharacterTable: React.FC = () => {
                 tvShows: charData.tvShows || [],
                 videoGames: charData.videoGames || [],
             });
-            setModalOpen(true); // Open modal on success
         } catch (error) {
             console.error('Failed to fetch character details:', error);
         }
+        setLoadingCharacter(false)
     };
 
     // Handle closing modal
@@ -136,11 +137,16 @@ const CharacterTable: React.FC = () => {
                 onPageChange={handlePageChange}
                 onRowsPerPageChange={handleItemsPerPageChange}
             />
-            <CharacterModal
-                open={modalOpen}
-                onClose={handleModalClose}
-                character={selectedCharacter}
-            />
+            {
+                modalOpen && (
+                    <CharacterModal
+                        open={modalOpen}
+                        loading={loadingCharacter}
+                        onClose={handleModalClose}
+                        character={selectedCharacter}
+                    />
+                )
+            }
         </>
     );
 };
