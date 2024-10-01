@@ -24,6 +24,8 @@ import {ApiResponse, Character, CharacterState} from '../../types';
 import CharacterModal from './CharacterModal'; // Import modal component
 import CharacterTableDataSkeleton from "./CharacterTableDataSkeleton.tsx";
 import CharacterTableData from "./CharacterTableData.tsx";
+import {faSpinner} from "@fortawesome/free-solid-svg-icons";
+import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 
 const CharacterTable: React.FC = () => {
     const dispatch = useDispatch();
@@ -92,7 +94,7 @@ const CharacterTable: React.FC = () => {
 
     return (
         <>
-            <Paper sx={{ height: 500, width: '100%', overflow: 'hidden' }}>
+            <Paper sx={{ height: 500, width: '100%', overflow: 'hidden', minWidth: 650 }}>
                 <TextField
                     label="Search Characters"
                     variant="outlined"
@@ -101,32 +103,34 @@ const CharacterTable: React.FC = () => {
                     fullWidth
                     margin="normal"
                 />
-                <TableContainer className="vertical-scroll-content" component={Paper} sx={{ maxHeight: 'calc(100% - 80px)', overflow: 'hidden auto' }}>
-                    <Table sx={{ minWidth: 650 }} aria-label="character table">
-                        <TableHead>
-                            <TableRow sx={{ position: 'sticky', top: 0, backgroundColor: 'white', zIndex: 1 }}>
-                                <TableCell>
-                                    <TableSortLabel
-                                        active={sortBy === 'name'}
-                                        direction={sortOrder}
-                                        onClick={handleSortByName}
-                                    >
-                                        Name
-                                    </TableSortLabel>
-                                </TableCell>
-                                <TableCell>TV Shows</TableCell>
-                                <TableCell>Video Games</TableCell>
-                                <TableCell>Allies</TableCell>
-                                <TableCell>Enemies</TableCell>
-                            </TableRow>
-                        </TableHead>
-                        <TableBody>
-                            {loading ? <CharacterTableDataSkeleton /> : (
-                                <CharacterTableData onRowClick={handleRowClick} />
-                            )}
-                        </TableBody>
-                    </Table>
-                </TableContainer>
+                {
+                    loading ? <FontAwesomeIcon icon={faSpinner} size="2x" spin style={{ marginBlockStart: '24px', width: 'min-content', alignSelf: 'center' }} />
+                        :
+                        <TableContainer className="vertical-scroll-content" component={Paper} sx={{ maxHeight: 'calc(100% - 80px)', overflow: 'hidden auto' }}>
+                            <Table>
+                                <TableHead>
+                                    <TableRow sx={{ position: 'sticky', top: 0, backgroundColor: 'white', zIndex: 1 }}>
+                                        <TableCell>
+                                            <TableSortLabel
+                                                active={sortBy === 'name'}
+                                                direction={sortOrder}
+                                                onClick={handleSortByName}
+                                            >
+                                                Name
+                                            </TableSortLabel>
+                                        </TableCell>
+                                        <TableCell>TV Shows</TableCell>
+                                        <TableCell>Video Games</TableCell>
+                                        <TableCell>Allies</TableCell>
+                                        <TableCell>Enemies</TableCell>
+                                    </TableRow>
+                                </TableHead>
+                                <TableBody>
+                                    <CharacterTableData onRowClick={handleRowClick} />
+                                </TableBody>
+                            </Table>
+                        </TableContainer>
+                }
             </Paper>
             <TablePagination
                 rowsPerPageOptions={[10, 20, 50, 100, 200, 500]}
